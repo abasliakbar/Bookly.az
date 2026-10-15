@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 40" fill="none">
+  <rect width="38" height="38" x="1" y="1" rx="12" fill="#059669"/>
+  <path d="M12 14.5h16M15 10.5v8m10-8v8M11 13h18v15H11z" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="m16 22 3 3 6-6" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="48" y="28" fill="#1D2B3E" font-family="Manrope, sans-serif" font-size="24" font-weight="800" letter-spacing="-1.2">Bookly</text>
+</svg>

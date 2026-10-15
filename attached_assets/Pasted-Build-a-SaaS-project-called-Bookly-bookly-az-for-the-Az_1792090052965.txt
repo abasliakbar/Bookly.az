@@ -1,0 +1,110 @@
+Build a SaaS project called "Bookly" (bookly.az) for the Azerbaijani market.
+It is an online appointment management system for small businesses 
+(barbershops, beauty salons, dentists, massage therapists, fitness coaches).
+
+## BRAND
+- Name: Bookly
+- Domain: bookly.az
+- Tagline: "Onlayn randevu, asan idarəetmə"
+- Primary color: #059669 (emerald green)
+- Secondary: #FFFFFF (white), #0F172A (dark navy)
+- Logo: Minimal calendar icon + "Bookly" wordmark
+- Tone: Professional, friendly, local (Azerbaijani-first)
+
+## TECH STACK
+- Frontend: Next.js 14 (App Router) + TypeScript + Tailwind CSS
+- Backend: Next.js API routes
+- Database: PostgreSQL (Replit built-in DB) + Prisma ORM
+- Auth: NextAuth.js (email + Google OAuth)
+- Payments: Lemon Squeezy (subscription, supports Azerbaijan)
+- Email: Resend (for confirmations & reminders)
+- Deployment: Replit
+
+## CORE FEATURES
+
+### 1. Landing Page (Azerbaijani default, EN/RU toggle)
+- Hero: "Biznesiniz üçün onlayn randevu sistemi"
+- Subheadline: "Müştərilər 24/7 özləri randevu alır. Siz sadəcə işinizə fokuslanın."
+- Pricing tiers (USD for Lemon Squeezy compatibility):
+  * Free: 1 staff, 30 appointments/month
+  * Pro: $17/month — unlimited staff, unlimited appointments, SMS reminders
+  * Business: $47/month — multi-location, analytics, API access
+- Demo video section, testimonials, FAQ
+- "14 gün pulsuz sınaq" (14-day free trial) CTA
+- Footer: Bookly © 2025, bookly.az, contact info
+
+### 2. Business Owner Dashboard (/dashboard)
+- Today's appointments (real-time view)
+- Calendar view (daily/weekly toggle)
+- Staff management (add, remove, set working hours)
+- Services management (name, duration, price)
+- Customer database (name, phone, visit history)
+- Analytics: revenue, most popular service, occupancy rate
+- Working hours & holidays configuration
+- Booking link display: bookly.az/book/[business-slug] with copy button
+
+### 3. Public Booking Page (/book/[business-slug])
+- Public link format: bookly.az/book/salonadi
+- Flow: Select service → Select staff → Select date/time → Enter name/phone → Confirm
+- Auto-generated available slots (no double-booking)
+- Confirmation email + 24h reminder email
+- Mobile-first design
+
+### 4. Super Admin Panel (/admin)
+- User list, subscriptions, revenue overview
+- Lemon Squeezy webhook event log
+
+## LEMON SQUEEZY INTEGRATION
+- Create /api/checkout route — generates Lemon Squeezy checkout URL
+- Webhook endpoint: /api/webhooks/lemon-squeezy
+  * subscription_created → user plan = active
+  * subscription_updated → update plan
+  * subscription_cancelled → plan = free
+- MUST verify webhook signature (HMAC)
+- Store variant IDs in .env:
+  * LEMON_PRO_VARIANT_ID
+  * LEMON_BUSINESS_VARIANT_ID
+  * LEMON_API_KEY
+  * LEMON_WEBHOOK_SECRET
+  * LEMON_STORE_ID
+
+## DATABASE SCHEMA (Prisma)
+- User (id, email, name, plan, lsSubscriptionId, businessId, createdAt)
+- Business (id, name, slug, ownerId, phone, address, workingHours JSON)
+- Service (id, businessId, name, duration, price)
+- Staff (id, businessId, name, workingHours JSON, services[])
+- Appointment (id, businessId, serviceId, staffId, customerName, 
+  customerPhone, customerEmail, startTime, endTime, status, notes)
+- Subscription (id, userId, plan, status, currentPeriodEnd, lsCustomerId)
+
+## UI/UX REQUIREMENTS
+- Fully Azerbaijani by default, with EN/RU language toggle
+- Mobile-first responsive design
+- Loading states, error handling, toast notifications
+- Clean, professional look (Stripe/Calendly inspired)
+- Works well on Replit's dark theme
+
+## EXTRAS
+- Seed script: 3 sample businesses + appointments + staff
+- .env.example with all required variables
+- README.md: setup instructions, Lemon Squeezy config, deployment guide
+- TypeScript strict mode
+- Zod for input validation
+- Rate limiting with Upstash Redis (optional but recommended)
+
+## BUILD INSTRUCTIONS
+Build step-by-step. Provide complete code for each file. Order:
+1. Project structure & package.json
+2. Prisma schema & migrations
+3. Authentication (NextAuth)
+4. Landing page
+5. Dashboard layout & pages
+6. Public booking flow
+7. Lemon Squeezy integration
+8. Email templates (Resend)
+9. Seed data
+10. README & deployment notes
+
+Use "Bookly" as the brand name everywhere in UI. 
+Slug format: bookly.az/book/[business-slug].
+Default language: Azerbaijani (az).

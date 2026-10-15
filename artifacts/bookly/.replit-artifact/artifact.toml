@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Bookly"
+description = "Bookly is an Azerbaijani-first online appointment platform for small service businesses, helping customers book easily while owners manage staff, services, schedules, and appointments."
+version = "1.0.0"
+id = "artifacts/bookly"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 22151
+
+[services.development]
+run = "pnpm --filter @workspace/bookly run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/bookly", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/bookly/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "22151"
+BASE_PATH = "/"
